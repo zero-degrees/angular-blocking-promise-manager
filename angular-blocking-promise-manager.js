@@ -2,9 +2,8 @@
  * Angular Blocking Promise Manager
  * https://github.com/zero-degrees/angularjs-blocking-promise-manager
  *
- * Copyright (c) 2017 Craig Russell
- * Released under the MIT license
- * https://github.com/zero-degrees/angularjs-blocking-promise-manager/blob/master/LICENSE
+ * @copyright 2017 Craig Russell
+ * @license MIT
  */
 
 (function() {
@@ -16,6 +15,11 @@
 			var metaPromise = $q.defer();
 			var promises = [];
 
+			/**
+			 * Clean up the promise list, and fire the meta promise if they are all complete.
+			 * 
+			 * @return {void}
+			 */
 			function cleanPromiseList() {
 				var originalPromises = promises,
 					cleanedPromises = [],
@@ -27,7 +31,7 @@
 					}
 				}
 
-				//resolve and refresh the meta promise when everything is complete
+				//resolve and refresh the meta promise
 				if(promises.length === 0) {
 					metaPromise.resolve();
 					metaPromise = $q.defer();
