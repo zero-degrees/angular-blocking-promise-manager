@@ -1,6 +1,6 @@
 # AngularJS Blocking Promise Manager
 
-Wraps groups of AngularJS promises.
+Wraps groups of AngularJS promises. It's like thread synchronization for your promises.
 
 ## Installation
 
