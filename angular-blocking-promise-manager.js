@@ -53,23 +53,27 @@
 				},
 
 				/**
-				 * Add a promise to the queue.
+				 * Add one or more promises to the queue.
 				 * 
-				 * @param {object} promise The promise you want to monitor
+				 * @param {object|object[]} newPromise The promise(s) you want to monitor
 				 * 
 				 * @return {void}
 				 */
-				add: function (promise) {
-					promise.then(
-						function () {
-							cleanPromiseList();
-						},
-						function () {
-							cleanPromiseList();
-						}
-					);
+				add: function (newPromise) {
+					var newPromises = Array.isArray(newPromise) ? newPromise : [newPromise];
 
-					promises.push(promise);
+					newPromises.map(function (promise) {
+						promise.then(
+							function () {
+								cleanPromiseList();
+							},
+							function () {
+								cleanPromiseList();
+							}
+						);
+
+						promises.push(promise);
+					});
 				}
 			};
 		}
