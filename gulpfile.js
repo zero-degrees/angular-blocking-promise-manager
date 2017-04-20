@@ -10,16 +10,16 @@ var input = 'angular-blocking-promise-manager.js',
 	output = 'angular-blocking-promise-manager.min.js';
 
 gulp.task("jshint", function() {
-    return gulp.src(input)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish));
+	return gulp.src(input)
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish));
 });
 
 gulp.task("default", ["jshint"], function() {
-    return gulp.src(input)
-        .pipe(uglify({
-        	preserveComments: "license"
-        }))
-        .pipe(concat(output))
-        .pipe(gulp.dest('./'));
+	return gulp.src(input)
+		.pipe(uglify({
+			preserveComments: "license"
+		}))
+		.pipe(concat(output))
+		.pipe(gulp.dest('./'));
 });
