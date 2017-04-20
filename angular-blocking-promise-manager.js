@@ -9,7 +9,7 @@
 (function() {
 	'use strict';
 
-	angular.module('BlockingPromiseManager').factory('BlockingPromiseManager', [
+	angular.module('BlockingPromiseManager', []).factory('BlockingPromiseManager', [
 		'$q',
 		function ($q) {
 			var metaPromise = $q.defer();
