@@ -13,7 +13,7 @@
 		'$q',
 		function ($q) {
 			var metaPromise = $q.defer();
-			var promises = [];
+			var promises = {};
 
 			/**
 			 * Clean up the promise list, and fire the meta promise if they are all complete.
@@ -21,12 +21,20 @@
 			 * @return {void}
 			 */
 			function cleanPromiseList() {
-				promises = promises.filter(function (promise) {
-					return promise.$$state.status != 1;
+				Object.keys(promises).forEach(function (groupName) {
+					promises[groupName] = promises[groupName].filter(function (promise) {
+						return promise.$$state.status != 1;
+					});
+				});
+
+				Object.keys(promises).forEach(function (groupName) {
+					if(promises[groupName].length === 0) {
+						delete promises[groupName];
+					}
 				});
 
 				//resolve and refresh the meta promise
-				if(promises.length === 0) {
+				if(Object.keys(promises).length === 0) {
 					metaPromise.resolve();
 					metaPromise = $q.defer();
 				}
@@ -34,12 +42,21 @@
 
 			return {
 				/**
-				 * Count the number of promises left in the queue.
+				 * Count the number of promises left in the queue. Optionally limited to the specified group.
+				 *
+				 * @param {string} [groupName] The name of the group you want to count
 				 * 
 				 * @return {Number}
 				 */
-				count: function () {
-					return promises.length;
+				count: function (groupName) {
+					if(groupName) {
+						return typeof promises[groupName] == 'undefined' ? 0 : promises[groupName].length;
+					}
+					else {
+						return Object.keys(promises).reduce(function (accumulator, groupName) {
+							return accumulator + promises[groupName].length;
+						}, 0);
+					}
 				},
 
 				/**
@@ -56,11 +73,15 @@
 				 * Add one or more promises to the queue.
 				 * 
 				 * @param {object|object[]} newPromise The promise(s) you want to monitor
+				 * @param {string} [groupName] The name of the group you want to add to (default: "_default")
 				 * 
 				 * @return {void}
 				 */
-				add: function (newPromise) {
+				add: function (newPromise, groupName) {
 					var newPromises = Array.isArray(newPromise) ? newPromise : [newPromise];
+
+					groupName = groupName ? groupName : '_default';
+					promises[groupName] = typeof promises[groupName] == 'undefined' ? [] : promises[groupName];
 
 					newPromises.map(function (promise) {
 						promise.then(
@@ -72,7 +93,7 @@
 							}
 						);
 
-						promises.push(promise);
+						promises[groupName].push(promise);
 					});
 				}
 			};
