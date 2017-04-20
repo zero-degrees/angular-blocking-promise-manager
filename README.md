@@ -1,6 +1,6 @@
 # AngularJS Blocking Promise Manager
 
-Wraps groups of AngularJS promises. It's like thread synchronization for your promises.
+Like thread synchronization for your promises.
 
 ## Installation
 
@@ -20,21 +20,26 @@ Add the module to your AngularJS app's dependencies.
 angular.module('MyAngularApp', ['BlockingPromiseManager']);
 ```
 
+## Basic Usage
+
 You can attach the BlockingPromiseManager to your scope if you'd like to use it to display an AJAX loading overlay.
 
 ```javascript
-$rootScope.BlockingPromiseManager = BlockingPromiseManager;
+$scope.BlockingPromiseManager = BlockingPromiseManager;
 ```
 
 ```html
 <div id="loadingOverlay" ng-if="BlockingPromiseManager.count() > 0">Loading...</div>
 ```
 
-Register your blocking promises -- $http requests, for example.
+Register your blocking promises -- $http requests, for example. Promises will be registered to the "_default" group unless otherwise specified.
 
 ```javascript
-var promise = $http.get('http://www.example.com');
+//single
 BlockingPromiseManager.add(promise);
+
+//multiple
+BlockingPromiseManager.add([promiseA, promiseB, promiseC]);
 ```
 
 Execute code when all promises have completed.
@@ -43,4 +48,26 @@ Execute code when all promises have completed.
 BlockingPromiseManager.then(function () {
     alert('All blocking promises complete.');
 });
+```
+
+## Advanced Usage
+
+Add promise to a group.
+
+```javascript
+BlockingPromiseManager.add(promise, 'myPromiseGroup');
+```
+
+Count the promises in a group.
+
+```javascript
+BlockingPromiseManager.count('myPromiseGroup');
+```
+
+Execute code when all promises in a group have completed.
+
+```javascript
+BlockingPromiseManager.then(function () {
+    alert('All blocking promises complete.');
+}, 'myPromiseGroup');
 ```
