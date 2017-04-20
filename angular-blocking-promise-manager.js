@@ -21,23 +21,15 @@
 			 * @return {void}
 			 */
 			function cleanPromiseList() {
-				var originalPromises = promises,
-					cleanedPromises = [],
-					i;
-
-				for(i = 0; i < originalPromises.lengthl; ++i) {
-					if(originalPromises[i].$$state.status != 1) {
-						cleanedPromises.push(originalPromises[i]);
-					}
-				}
+				promises = promises.filter(function (promise) {
+					return promise.$$state.status != 1;
+				});
 
 				//resolve and refresh the meta promise
 				if(promises.length === 0) {
 					metaPromise.resolve();
 					metaPromise = $q.defer();
 				}
-
-				promises = cleanedPromises;
 			}
 
 			return {
