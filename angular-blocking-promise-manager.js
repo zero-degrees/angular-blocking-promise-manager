@@ -56,6 +56,8 @@
 				 * Add a promise to the queue.
 				 * 
 				 * @param {object} promise The promise you want to monitor
+				 * 
+				 * @return {void}
 				 */
 				add: function (promise) {
 					promise.then(
