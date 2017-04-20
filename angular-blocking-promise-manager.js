@@ -13,7 +13,7 @@
 		'$q',
 		function ($q) {
 			var metaPromises = {
-				_master: $q.defer()
+				_master: $q.defer(),
 			};
 			var promises = {};
 
@@ -40,7 +40,7 @@
 				//resolve and refresh the meta promise
 				if(Object.keys(promises).length === 0) {
 					metaPromises._master.resolve();
-					metaPromise._master = $q.defer();
+					metaPromises._master = $q.defer();
 				}
 			}
 
@@ -65,11 +65,10 @@
 
 				/**
 				 * Get a meta promise, which completes when all of the promises it tracks have succeeded or failed.
-				 * Returns the master promise by default. Optionally gets a group's promise.
 				 *
 				 * @param {string} [groupName] The name of the group you want to count
 				 * 
-				 * @return {object} The meta promise
+				 * @return {object} The the group's promise or the master promise if no group is specified
 				 */
 				getMetaPromise: function (groupName) {
 					groupName = groupName ? groupName : '_master';
@@ -93,7 +92,10 @@
 					var newPromises = Array.isArray(newPromise) ? newPromise : [newPromise];
 
 					groupName = groupName ? groupName : '_default';
-					promises[groupName] = typeof promises[groupName] == 'undefined' ? [] : promises[groupName];
+					if(typeof promises[groupName] == 'undefined') {
+						promises[groupName] = [];
+						metaPromises[groupName] = $q.defer();
+					}
 
 					newPromises.map(function (promise) {
 						promise.then(
