@@ -27,7 +27,7 @@ $rootScope.BlockingPromiseManager = BlockingPromiseManager;
 ```
 
 ```html
-<div id="loadingOverlay" ng-if="BlockingPromiseManager.count > 0">Loading...</div>
+<div id="loadingOverlay" ng-if="BlockingPromiseManager.count() > 0">Loading...</div>
 ```
 
 Register your blocking promises -- $http requests, for example.
