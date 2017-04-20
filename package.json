@@ -1,0 +1,27 @@
+{
+  "name": "angularjs-blocking-promise-manager",
+  "version": "1.0.0",
+  "description": "Wraps groups of AngularJS promises",
+  "main": "angular-blocking-promise-manager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zero-degrees/angularjs-blocking-promise-manager.git"
+  },
+  "author": "Craig Russell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zero-degrees/angularjs-blocking-promise-manager/issues"
+  },
+  "homepage": "https://github.com/zero-degrees/angularjs-blocking-promise-manager#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-uglify": "^2.1.2",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
+  }
+}
