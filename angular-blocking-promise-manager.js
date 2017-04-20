@@ -12,7 +12,9 @@
 	angular.module('BlockingPromiseManager', []).factory('BlockingPromiseManager', [
 		'$q',
 		function ($q) {
-			var metaPromise = $q.defer();
+			var metaPromises = {
+				_master: $q.defer()
+			};
 			var promises = {};
 
 			/**
@@ -30,13 +32,15 @@
 				Object.keys(promises).forEach(function (groupName) {
 					if(promises[groupName].length === 0) {
 						delete promises[groupName];
+						metaPromises[groupName].resolve();
+						delete metaPromises[groupName];
 					}
 				});
 
 				//resolve and refresh the meta promise
 				if(Object.keys(promises).length === 0) {
-					metaPromise.resolve();
-					metaPromise = $q.defer();
+					metaPromises._master.resolve();
+					metaPromise._master = $q.defer();
 				}
 			}
 
@@ -60,13 +64,21 @@
 				},
 
 				/**
-				 * Get this service's meta promise, which completes when all of the promises it tracks have succeeded
-				 * or failed.
+				 * Get a meta promise, which completes when all of the promises it tracks have succeeded or failed.
+				 * Returns the master promise by default. Optionally gets a group's promise.
+				 *
+				 * @param {string} [groupName] The name of the group you want to count
 				 * 
 				 * @return {object} The meta promise
 				 */
-				getMetaPromise: function () {
-					return metaPromise;
+				getMetaPromise: function (groupName) {
+					groupName = groupName ? groupName : '_master';
+
+					if(typeof metaPromises[groupName] == 'undefined') {
+						return $q.defer();		//the group no longer exists
+					}
+
+					return metaPromises[groupName];
 				},
 
 				/**
