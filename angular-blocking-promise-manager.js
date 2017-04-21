@@ -46,21 +46,20 @@
 
 			return {
 				/**
-				 * Count the number of promises left in the queue. Optionally limited to the specified group.
+				 * Count the number of promises left in the queue. Optionally limited to the specified group(s).
 				 *
-				 * @param {string} [groupName] The name of the group you want to count
+				 * @param {string|string[]} [groupName] The name(s) of the group you want to count
 				 * 
 				 * @return {Number}
 				 */
 				count: function (groupName) {
-					if(groupName) {
-						return typeof promises[groupName] == 'undefined' ? 0 : promises[groupName].length;
-					}
-					else {
-						return Object.keys(promises).reduce(function (accumulator, groupName) {
-							return accumulator + promises[groupName].length;
-						}, 0);
-					}
+					groupName = groupName ?
+						(Array.isArray(groupName) ? groupName : [groupName]) :
+						Object.keys(promises);
+					
+					return Object.keys(promises).reduce(function (accumulator, groupName) {
+						return accumulator + promises[groupName].length;
+					}, 0);
 				},
 
 				/**
