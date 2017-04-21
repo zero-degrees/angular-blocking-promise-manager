@@ -25,11 +25,9 @@
 			function cleanPromiseList() {
 				Object.keys(promises).forEach(function (groupName) {
 					promises[groupName] = promises[groupName].filter(function (promise) {
-						return promise.$$state.status != 1;
+						return typeof promise.$$state.value != 'undefined';
 					});
-				});
 
-				Object.keys(promises).forEach(function (groupName) {
 					if(promises[groupName].length === 0) {
 						delete promises[groupName];
 						metaPromises[groupName].resolve();
@@ -53,6 +51,8 @@
 				 * @return {Number}
 				 */
 				count: function (groupName) {
+					cleanPromiseList();
+
 					groupName = groupName ?
 						(Array.isArray(groupName) ? groupName : [groupName]) :
 						Object.keys(promises);
