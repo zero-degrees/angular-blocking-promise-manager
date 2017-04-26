@@ -6,12 +6,12 @@ Like thread synchronization for your promises.
 
 Install the dependency with Bower or whatever you prefer.
 
-`bower install https://github.com/zero-degrees/angularjs-blocking-promise-manager.git --save`
+`bower install https://github.com/zero-degrees/angular-blocking-promise-manager.git --save`
 
 Include the file.
 
 ```html
-<script src="/bower_components/angularjs-blocking-promise-manager/angular-blocking-promise-manager.min.js"></script>
+<script src="/bower_components/angular-blocking-promise-manager/angular-blocking-promise-manager.min.js"></script>
 ```
 
 Add the module to your AngularJS app's dependencies.
