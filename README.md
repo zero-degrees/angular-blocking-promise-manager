@@ -67,7 +67,7 @@ BlockingPromiseManager.count('myPromiseGroup');
 Execute code when all promises in a group have completed.
 
 ```javascript
-BlockingPromiseManager.then(function () {
-    alert('All blocking promises complete.');
-}, 'myPromiseGroup');
+BlockingPromiseManager.getMetaPromise('myPromiseGroup').then(function () {
+    alert('All done.');
+});
 ```
