@@ -76,7 +76,19 @@
 						return $q.defer();		//the group no longer exists
 					}
 
-					return metaPromises[groupName];
+					return metaPromises[groupName].promise;
+				},
+
+				/**
+				 * Convenience method that acts on the master promise.
+				 * 
+				 * @param {function} successCallback The callback that will be fired upon the promise's success
+				 * @param {function} failureCallback The callback that will be fired upon the promise's failure
+				 * 
+				 * @return {object} The promise
+				 */
+				then: function (successCallback, failureCallback) {
+					return this.getMetaPromise().then(successCallback, failureCallback);
 				},
 
 				/**
